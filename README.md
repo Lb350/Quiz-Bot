@@ -1,10 +1,10 @@
-#:robot: Quiz-Bot
+# :robot: Quiz-Bot
 
-:left_speech_bubble:Команды бота:
+## :left_speech_bubble:Команды бота:
 
-:rocket:\start - Начать взаимодействие с ботом
+### :rocket:\start - Начать взаимодействие с ботом
 
-:question:\help - Открыть помощь
+### :question:\help - Открыть помощь
 
-:dart:\quiz - Начать квиз
+### :dart:\quiz - Начать квиз
 
