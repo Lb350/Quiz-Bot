@@ -11,8 +11,6 @@ from aiosqlitedb import *
 from questions import quiz_data
 
 
-
-
 def generate_options_keyboard(answer_options, right_answer):
   builder = InlineKeyboardBuilder()
 
@@ -21,6 +19,7 @@ def generate_options_keyboard(answer_options, right_answer):
         text=option,
         callback_data='right_answer' if option == right_answer else 'wrong_answer')
     )
+
   builder.adjust(1)
   return builder.as_markup()
 
@@ -35,13 +34,11 @@ async def right_answer(callback: types.CallbackQuery):
       reply_markup=None,
 
   )
-
   current_question_index = await get_quiz_index(callback.from_user.id)
   correct_option = quiz_data[current_question_index]['correct_option']
   current_score = await get_rating(callback.from_user.id)
 
   if callback.data == 'right_answer':
-
     await callback.message.answer(f"Верно!")
     current_score += 1
     await update_rating(callback.from_user.id, current_score)
@@ -55,6 +52,7 @@ async def right_answer(callback: types.CallbackQuery):
     await get_question(callback.message, callback.from_user.id)
   else:
     await callback.message.answer(f'Это был последний вопрос. Ваш результат {current_score} правильных ответов. Квиз завершен!')
+
 
 # Хэндлер на команду /start
 @dp.message(Command('start'))
@@ -107,6 +105,7 @@ async def get_rating(user_id):
       else:
         return 0
 
+
 async def update_rating(user_id, new_score):
   async with aiosqlite.connect('quiz350_bot.db') as db:
     await db.execute('INSERT INTO users (user_id, rating) VALUES (?, ?) ON CONFLICT(user_id) DO UPDATE SET rating = excluded.rating', (user_id, new_score))
@@ -120,6 +119,7 @@ async def cmd_quiz(message: types.Message):
 
   await message.answer('Давайте начнем квиз!')
   await new_quiz(message)
+
 
 # Хендлер на команду /help
 @dp.message(Command('help'))
